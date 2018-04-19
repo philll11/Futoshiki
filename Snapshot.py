@@ -17,7 +17,7 @@ class snapshot:
             for column in range(5):
                 self.cells[row].append(Cell.cell(row, column, 0, [1, 2, 3, 4, 5])) # Append a cell
         self.constraints =[]
-        
+
     def setCellVal(self, i, j, val):
         self.cells[i][j].setVal(val)
         row = self.cellsByRow(i)

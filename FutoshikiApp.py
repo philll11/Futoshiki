@@ -34,7 +34,7 @@ while done == False:
                 trivialpuzzle = "trivialpuzzles/" + trivialpuzzle
                 firstSnapshot = Futoshiki_IO.loadPuzzle(trivialpuzzle)
                 Solver.solve(firstSnapshot, screen)
-                print("--- %s seconds ---" % (time.time() - start_time))
+                print("--- %s : %s seconds --- " % (trivialpuzzle.split('/')[1], (time.time() - start_time)))
             if event.key == pygame.K_e:
                 start_time = time.time()
                 # Choose a random puzzle to solve
@@ -42,7 +42,7 @@ while done == False:
                 easypuzzle = "easypuzzles/" + easypuzzle
                 firstSnapshot = Futoshiki_IO.loadPuzzle(easypuzzle)
                 Solver.solve(firstSnapshot, screen)
-                print("--- %s seconds ---" % (time.time() - start_time))
+                print("--- %s : %s seconds ---" % (easypuzzle.split('/')[1], (time.time() - start_time)))
             if event.key == pygame.K_h:
                 start_time = time.time()
                 # Choose a random puzzle to solve
@@ -50,7 +50,7 @@ while done == False:
                 hardpuzzle = "hardpuzzles/" + hardpuzzle
                 firstSnapshot = Futoshiki_IO.loadPuzzle(hardpuzzle)
                 Solver.solve(firstSnapshot, screen)
-                print("--- %s seconds ---" % (time.time() - start_time))
+                print("--- %s : %s seconds ---" % (hardpuzzle.split('/')[1], (time.time() - start_time)))
 
     # Limit to 20 frames per second
     clock.tick(10)
