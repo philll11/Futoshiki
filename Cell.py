@@ -9,7 +9,7 @@ class cell:
         self.col = col
         self.val = val
         self.possibles = possibles
-        
+
     def getRow(self):
         return self.row
     

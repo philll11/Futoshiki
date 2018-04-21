@@ -26,11 +26,12 @@ def loadPuzzle(puzzlefile):
     for rownumber in range(5): 
         newrow = [int(x) for x in content[rownumber].split()] 
         for columnnumber in range(5):
-            newsnapshot.setCellVal(rownumber, columnnumber, newrow[columnnumber])  
+            newsnapshot.setCellVal(rownumber, columnnumber, newrow[columnnumber])
     constraints = content[5:]
     for c in constraints:
-        newconstraint = [int(x) for x in c.split()] 
+        newconstraint = [int(x) for x in c.split()]
         newsnapshot.setConstraint(newconstraint)
+
     file.close()
     return newsnapshot
         
@@ -68,6 +69,3 @@ def displayPuzzle(snapshot, screen):
         else:
              label = myfont.render("v", 1, red)
              screen.blit(label, ((margin+width)*c1+margin+15,(margin+height)*(r2+1)-25))
-        
-        
-        

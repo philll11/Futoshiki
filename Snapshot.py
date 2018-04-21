@@ -18,6 +18,9 @@ class snapshot:
                 self.cells[row].append(Cell.cell(row, column, 0, [1, 2, 3, 4, 5])) # Append a cell
         self.constraints =[]
 
+    def getCell(self, y, x):
+        return self.cells[y][x]
+
     def setCellVal(self, i, j, val):
         self.cells[i][j].setVal(val)
         row = self.cellsByRow(i)
@@ -43,14 +46,14 @@ class snapshot:
         constraints = []  
         for c in self.constraints:
             coords1 = (c[0], c[1])
-            coords2 = (c[2],c[3])
-            constraints.append((coords1,coords2))
+            coords2 = (c[2], c[3])
+            constraints.append((coords1, coords2))
         return constraints
-        
-    def cellsByRow(self,row):
+
+    def cellsByRow(self, row):
         return self.cells[row]
     
-    def cellsByCol(self,col):
+    def cellsByCol(self, col):
         column = []
         for row in range(5):
             column.append(self.cells[row][col])
@@ -60,7 +63,7 @@ class snapshot:
         unsolved = []
         for row in range(5):
             for col in range(5):
-                if self.cells[row][col].getVal() == 0 :
+                if self.cells[row][col].getVal() == 0:
                     unsolved.append(self.cells[row][col])
         return unsolved
         

@@ -7,27 +7,11 @@
 import pygame, Snapshot, Cell, Futoshiki_IO
 
 
-
 def solve(snapshot, screen):
     # display current snapshot
-    #pygame.time.delay(200)
+    pygame.time.delay(200)
     Futoshiki_IO.displayPuzzle(snapshot, screen)
     pygame.display.flip()
-
-
-    listOfChains = []
-    chainOfConstraints = []
-    for currentConstraint in snapshot.getConstraints():
-        for testingConstriant in snapshot.getConstraints():
-            if currentConstraint[0] == testingConstriant[1]:
-                chainOfConstraints.append(currentConstraint)
-                chainOfConstraints.append(testingConstriant)
-                if findConstraints(snapshot, chainOfConstraints, testingConstriant):
-                    listOfChains.append(chainOfConstraints)
-                    chainOfConstraints = []
-                else:
-                    chainOfConstraints = []
-
 
     # if current snapshot is complete ... return a value
     if isComplete(snapshot) and checkConsistency(snapshot):
@@ -42,15 +26,15 @@ def solve(snapshot, screen):
         newsnapshot.setCellVal(emptyCell.getRow(), emptyCell.getCol(), emptyCell.getPossVals()[0])
 
         if checkConsistency(newsnapshot):
+
             success = solve(newsnapshot, screen)
             if success:
                 return True
         return False
 
-    #unsolved = snapshot.unsolvedCells()
     emptyCell = unsolved[1]
 
-    # This loop will cycle through every potential value in each cell
+    # This loop will iterate through every potential value in each cell
     for val in range(5):
         # Checks whether the potential value has been placed in the row or column.
         if snapshot.notContains(emptyCell.getRow(), emptyCell.getCol(), val + 1):
@@ -64,26 +48,8 @@ def solve(snapshot, screen):
     return False
 
 
-def findConstraints(snapshot, constraintList, currentConstraint):
-    if len(constraintList) == 3:
-        return True
-    else:
-        constraints = snapshot.getConstraints()
-        for constraint in constraints:
-            if currentConstraint[0] == constraint[1]:
-                constraintList.append(constraint)
-                if findConstraints(snapshot, constraintList, constraint):
-                    return True
-        return False
-
-
-# def chainCheck(snapshot):
-
-
-
 # Check whether a snapshot is consistent, i.e. all cell values comply
-# with the Futoshiki rules (each number occurs only once in each row and column,
-# no "<" constraints violated).
+# with the Futoshiki rules (no "<" constraints violated).
 def checkConsistency(snapshot):
     constraints = snapshot.getConstraints()
     for i in constraints:
