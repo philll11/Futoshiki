@@ -13,34 +13,31 @@ def solve(snapshot, screen):
     Futoshiki_IO.displayPuzzle(snapshot, screen)
     pygame.display.flip()
 
-    # if current snapshot is complete ... return a value
     if isComplete(snapshot) and checkConsistency(snapshot):
        return True
-    # The code block below handles singleton selection
-    unsolved = snapshot.unsolvedCells()
-    # Sorts the unsolved list of cells so that the singletons can be dealt with first
-    sortedUnsolved = sorted(unsolved, key=lambda cell: len(cell.possibles))
+
+    # Singleton selection code block
+    unsolvedCells = snapshot.unsolvedCells()
+    # Sorts the unsolved list of cells
+    sortedUnsolved = sorted(unsolvedCells, key=lambda c: len(c.possibles))
     emptyCell = sortedUnsolved[0]
     if len(emptyCell.getPossVals()) == 1:
         newsnapshot = snapshot.clone()
         newsnapshot.setCellVal(emptyCell.getRow(), emptyCell.getCol(), emptyCell.getPossVals()[0])
-
         if checkConsistency(newsnapshot):
-
             success = solve(newsnapshot, screen)
             if success:
                 return True
         return False
 
-    emptyCell = unsolved[1]
+    emptyCell = unsolvedCells[1]
 
-    # This loop will iterate through every potential value in each cell
+    # Iterates through potential values in cells
     for val in range(5):
-        # Checks whether the potential value has been placed in the row or column.
+        # Checks potential values are already placed in row or column.
         if snapshot.notContains(emptyCell.getRow(), emptyCell.getCol(), val + 1):
             newsnapshot = snapshot.clone()
             newsnapshot.setCellVal(emptyCell.getRow(), emptyCell.getCol(), val + 1)
-
             if checkConsistency(newsnapshot):
                 success = solve(newsnapshot, screen)
                 if success:
@@ -80,18 +77,18 @@ def checkConsistency(snapshot):
 def isComplete(snapshot):
     if len(snapshot.unsolvedCells()) == 0:
         for i in range(5):
-            rowSolution = [1, 2, 3, 4, 5]
-            colSolution = [1, 2, 3, 4, 5]
-            for cell in snapshot.cellsByRow(i):
-                # If this if statement is entered, there are two of the same values in current row
-                if cell.getVal() not in rowSolution:
-                    return False
-                rowSolution.remove(cell.getVal())
-            for cell in snapshot.cellsByCol(i):
+            rowSol = [1, 2, 3, 4, 5]
+            colSol = [1, 2, 3, 4, 5]
+            for c in snapshot.cellsByCol(i):
                 # If this if statement is entered, there are two of the same values in current column
-                if cell.getVal() not in colSolution:
+                if c.getVal() not in colSol:
                     return False
-                colSolution.remove(cell.getVal())
+                colSol.remove(c.getVal())
+            for c in snapshot.cellsByRow(i):
+                # If this if statement is entered, there are two of the same values in current row
+                if c.getVal() not in rowSol:
+                    return False
+                rowSol.remove(c.getVal())
         return True
     return False
 
